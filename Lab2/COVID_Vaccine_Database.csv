@@ -1,0 +1,4 @@
+FirstName,MiddleName,LastName,DOB,PhoneNumber,Email,StreetAddress,CurrentDate,FutureDate,Sent,SendText
+Jose,D.,Ramirez,06/21/91,8314067973,josedogsnop@gmail.com,15 Crescent Dr.,2021-03-02 00:05:00,2021-03-23 00:00:00,1,18314067973
+Jose,,Ramirez,06/01/83,8314067973,josedogsnop@gmail.com,12345,2021-03-02 00:05:00,2021-03-23 00:00:00,1,18314067973
+Chris,H,Pham,01011960,4085551212,EE104sjsu@gmail.com,"One Washington Sq, San Jose, CA 95192",2021-08-08 00:05:00,2021-08-29 00:00:00,1,14085551212

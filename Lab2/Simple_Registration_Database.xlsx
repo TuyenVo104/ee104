@@ -1,0 +1,3 @@
+FirstName,MiddleName,LastName,DOB,PhoneNumber,Email,StreetAddress,CurrentDate,FutureDate,Sent,SendText,StudentId,School,Sex
+Chris,H,Pham,1011960,4085551212,EE104sjsu@gmail.com,"One Washington Sq, San Jose, CA 95192",2021-08-08 00:05:00,2021-08-29 00:00:00,1,14085551212,,,
+Eric,D,Reyes,2323,5103141982,ericjrreyes2@gmail.com,1212 wewe,2021-12-12 00:05:00,2022-01-02 00:00:00,1,15103141982,sjsu,11351067.0,male
