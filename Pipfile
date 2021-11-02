@@ -12,6 +12,14 @@ ipykernel = "*"
 matplotlib-label-lines = "*"
 pandas = "*"
 sklearn = "*"
+seaborn = "*"
+aiohttp = "*"
+asyncio = "*"
+async-timeout = "==4.0.0a3"
+openpyxl = "*"
+us = "*"
+xlrd = "*"
+census = "*"
 
 [dev-packages]
 
