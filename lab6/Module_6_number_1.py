@@ -1,3 +1,4 @@
+#%%
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,16 +8,16 @@ import math
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
-
-#First we read the csv to plot the damily confirmed cases
+#%% Read CSV
+#First we read the csv to plot the daily confirmed cases
 df_3_months = pd.read_csv("california-history.csv",skiprows=range(1,120),nrows=92)
-
+#%% Select Data
 #Selecting only the columns for date and US case values
 df_3_months = df_3_months[['date', 'positiveIncrease']]
 print('\n')
 print(df_3_months)
 
-#Plotting our first 3 months of data from 3/01/2020 to 5/30/2020
+#%%Plotting our first 3 months of data from 3/01/2020 to 5/30/2020
 plt.plot(df_3_months['positiveIncrease'])
 plt.xlabel('Days')
 plt.ylabel('Confirmed Cases')
@@ -24,21 +25,21 @@ plt.title('Confirmed Covid-19 Cases in the US (March to May)')
 plt.xticks(rotation=70)
 plt.show()
 
-#Second we read the csv and use it to create our training sets
+#%% Second we read the csv and use it to create our training sets
 df = pd.read_csv("california-history.csv",skiprows=range(1,120),nrows=184)
 
-#creating a dataframe with only the date and US data
+#%%creating a dataframe with only the date and US data
 df2 = df[['date', 'positiveIncrease']]
 print('\n')
 print(df2)
 
-#Creating a dataframe with only US data
+#%%Creating a dataframe with only US data
 data = df2.filter(['positiveIncrease'])
 
-#converting the dataframe to numpy array
+#%%converting the dataframe to numpy array
 dataset = data.values
 
-#Establishing size of training data set which will be the first 3 months previously plotted
+#%%Establishing size of training data set which will be the first 3 months previously plotted
 #or half (.5) of the total 6 month data
 training_data_len = math.ceil(len(dataset)*.5)
 
@@ -46,7 +47,7 @@ training_data_len = math.ceil(len(dataset)*.5)
 scaler = MinMaxScaler(feature_range=(0,1))
 scaled_data = scaler.fit_transform(dataset)
 
-#Creating training data set
+#%%Creating training data set
 train_data = scaled_data[0:training_data_len, :]
 x_train = []
 y_train = []
@@ -54,7 +55,7 @@ for i in range(90, len(train_data)):
     x_train.append(train_data[i-90:i,0])
     y_train.append(train_data[i,0])
 
-#Converting training data sets to numpy arrays
+#%%Converting training data sets to numpy arrays
 x_train = np.array(x_train)
 y_train = np.array(y_train)
 

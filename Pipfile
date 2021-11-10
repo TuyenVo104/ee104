@@ -20,6 +20,8 @@ openpyxl = "*"
 us = "*"
 xlrd = "*"
 census = "*"
+keras = "*"
+tensorflow = "*"
 
 [dev-packages]
 
