@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:latest-jupyter
+FROM tensorflow/tensorflow:latest-gpu-jupyter
 
 WORKDIR /app
 COPY requirements.txt .

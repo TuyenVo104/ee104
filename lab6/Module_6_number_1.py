@@ -8,6 +8,9 @@ import math
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
+import tensorflow as tf
+#%%
+tf.config.list_physical_devices('GPU') 
 #%% Read CSV
 #First we read the csv to plot the daily confirmed cases
 df_3_months = pd.read_csv("california-history.csv",skiprows=range(1,120),nrows=92)
@@ -41,7 +44,7 @@ dataset = data.values
 
 #%%Establishing size of training data set which will be the first 3 months previously plotted
 #or half (.5) of the total 6 month data
-training_data_len = math.ceil(len(dataset)*.6)
+training_data_len = math.ceil(len(dataset)*.5)
 
 #Scaling training set data
 scaler = MinMaxScaler(feature_range=(0,1))
@@ -63,18 +66,24 @@ y_train = np.array(y_train)
 x_train = np.reshape(x_train,(x_train.shape[0],x_train.shape[1],1))
 
 #%%Creating LSTM model
-model=Sequential()
-model.add(LSTM(100,return_sequences=False, input_shape=(x_train.shape[1],1)))
-# model.add(LSTM(50,return_sequences=False))
-# model.add(Dense(50))
-# model.add(Dense(25))
-model.add(Dense(1))
+strategy = tf.distribute.MirroredStrategy()
+print("Number of devices: {}".format(strategy.num_replicas_in_sync))
+with strategy.scope():
+
+    model=Sequential()
+    model.add(LSTM(400,return_sequences=True,recurrent_activation='selu',kernel_initializer='lecun_normal', input_shape=(x_train.shape[1],1)))
+    model.add(LSTM(200,return_sequences=False))
+    model.add(Dense(200,activation="tanh")) #
+    model.add(Dense(50,activation="relu"))
+
+    model.add(Dense(1))
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4), loss='mean_squared_error')
 
 #%% Compiling model
-model.compile(optimizer='adam', loss='mean_squared_error')
+# model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3), loss=tf.keras.losses.BinaryCrossentropy())
 
 #%%Training the model with our training sets and allowing for single iteration
-model.fit(x_train, y_train, batch_size=1, epochs=5)
+model.fit(x_train, y_train, batch_size=256, epochs=200)
 
 #%%Creating array for the remaining 3 months of values
 test_data = scaled_data[training_data_len-90:, :]

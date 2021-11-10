@@ -1,9 +1,14 @@
 services:
   tf:
     build: .
+    # image: juxsta/lab6
     working_dir: /tf
     ports:
       - 8888:8888
     volumes: 
       - .:/tf
-    
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
