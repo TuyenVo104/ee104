@@ -73,8 +73,8 @@ with strategy.scope():
     model=Sequential()
     model.add(LSTM(400,return_sequences=True,recurrent_activation='selu',kernel_initializer='lecun_normal', input_shape=(x_train.shape[1],1)))
     model.add(LSTM(200,return_sequences=False))
-    model.add(Dense(200,activation="tanh")) #
-    model.add(Dense(50,activation="relu"))
+    model.add(Dense(400,activation="tanh")) #
+    model.add(Dense(100,activation="relu"))
 
     model.add(Dense(1))
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4), loss='mean_squared_error')
@@ -83,7 +83,7 @@ with strategy.scope():
 # model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3), loss=tf.keras.losses.BinaryCrossentropy())
 
 #%%Training the model with our training sets and allowing for single iteration
-model.fit(x_train, y_train, batch_size=256, epochs=200)
+model.fit(x_train, y_train, batch_size=1028, epochs=200)
 
 #%%Creating array for the remaining 3 months of values
 test_data = scaled_data[training_data_len-90:, :]
