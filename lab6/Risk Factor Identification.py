@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[11]:
+# In[8]:
 
 
 import pandas as pd
@@ -9,13 +9,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import linregress, chi2_contingency
-from sklearn import preprocessing
+from sklearn import preprocessing,linear_model
 le = preprocessing.LabelEncoder()
 
 
 # 
 
-# In[20]:
+# In[3]:
 
 
 df= pd.read_csv('./hmeq.csv')
@@ -35,7 +35,7 @@ df.BAD = le.fit_transform(df.BAD)
 # df = df.drop(["JOB","REASON"],axis=1)
 
 
-# In[21]:
+# In[4]:
 
 
 print("columns",list(df.columns.values))
@@ -44,7 +44,7 @@ sns.pairplot(df,kind="scatter")
 plt.show()
 
 
-# In[22]:
+# In[6]:
 
 
 corr=df.corr()
@@ -55,7 +55,7 @@ print(chi2_contingency(pd.crosstab(df.REASON,df.BAD))) ## really low p value; no
 print(chi2_contingency(pd.crosstab(df.JOB,df.BAD)))
 
 
-# In[19]:
+# In[7]:
 
 
 test = df.dropna()
@@ -94,26 +94,36 @@ print(np.count_nonzero(~np.isnan(df.VALUE))) # More Value datapoints so this is 
 
 # 
 
-# In[8]:
+# In[33]:
 
 
-clean_df = df.fillna(0)[pear_columns].to_numpy()
-clean_pear = pear[pear_columns].to_numpy()
-pred = np.dot(clean_df,clean_pear.T)
-df["Predicted_BAD"] = pred
+cleandf = df.fillna(df.median())
+X = cleandf[pear_columns]# here we have 2 variables for multiple regression. If you just want to use one variable for simple linear regression, then use X = df['Interest_Rate'] for example.Alternatively, you may add additional variables within the brackets
+Y = cleandf['BAD']
+# with sklearn
+regr = linear_model.LinearRegression()
+model = regr.fit(X,Y)
+Predicted = model.predict(X)
+# regr.fit(Y)
 
 
-# In[9]:
+# In[34]:
 
 
-pd.crosstab(df.Predicted_BAD,df.BAD,)
-print(chi2_contingency(pd.crosstab(df.Predicted_BAD,df.BAD,)
+pd.crosstab(Predicted,df.BAD,)
+print(chi2_contingency(pd.crosstab(Predicted,df.BAD,)
 ))
-plt.scatter(df.Predicted_BAD,df.BAD) ## Two groups, the higher the predicted BAD the higher the chance of defaulting
+plt.scatter(Predicted,df.BAD) ## Two groups, the higher the predicted BAD the higher the chance of defaulting
 plt.show()
 
 
-# In[10]:
+# In[35]:
+
+
+df["Predicted_BAD"] = Predicted
+
+
+# In[36]:
 
 
 mean = df.Predicted_BAD[df.BAD == 1].mean()
@@ -122,7 +132,7 @@ HighRiskBound = mean + std
 LowRiskBound = mean - std
 
 
-# In[11]:
+# In[37]:
 
 
 highRiskMask = df.Predicted_BAD >= HighRiskBound

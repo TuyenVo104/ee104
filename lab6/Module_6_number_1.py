@@ -41,7 +41,7 @@ dataset = data.values
 
 #%%Establishing size of training data set which will be the first 3 months previously plotted
 #or half (.5) of the total 6 month data
-training_data_len = math.ceil(len(dataset)*.5)
+training_data_len = math.ceil(len(dataset)*.6)
 
 #Scaling training set data
 scaler = MinMaxScaler(feature_range=(0,1))
@@ -62,20 +62,21 @@ y_train = np.array(y_train)
 #Reshaping training set 
 x_train = np.reshape(x_train,(x_train.shape[0],x_train.shape[1],1))
 
-#Creating LSTM model
+#%%Creating LSTM model
 model=Sequential()
-model.add(LSTM(50,return_sequences=True, input_shape=(x_train.shape[1],1)))
-model.add(LSTM(50,return_sequences=False))
-model.add(Dense(25))
+model.add(LSTM(100,return_sequences=False, input_shape=(x_train.shape[1],1)))
+# model.add(LSTM(50,return_sequences=False))
+# model.add(Dense(50))
+# model.add(Dense(25))
 model.add(Dense(1))
 
-#Compiling model
+#%% Compiling model
 model.compile(optimizer='adam', loss='mean_squared_error')
 
-#Training the model with our training sets and allowing for single iteration
+#%%Training the model with our training sets and allowing for single iteration
 model.fit(x_train, y_train, batch_size=1, epochs=5)
 
-#Creating array for the remaining 3 months of values
+#%%Creating array for the remaining 3 months of values
 test_data = scaled_data[training_data_len-90:, :]
 
 #Creating test data sets
@@ -90,7 +91,7 @@ x_test = np.array(x_test)
 #Reshaping test data sets
 x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1],1))
 
-#Acquiring predicted values based on test data set
+#%%Acquiring predicted values based on test data set
 predictions = model.predict(x_test)
 predictions = scaler.inverse_transform(predictions)
 
@@ -105,3 +106,6 @@ plt.plot(train['positiveIncrease'])
 plt.plot(valid[['positiveIncrease','Predictions']])
 plt.legend(['Original', 'Reality', 'Prediction'])
 plt.show()
+# %%
+
+# %%

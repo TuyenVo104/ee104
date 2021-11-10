@@ -1,0 +1,21 @@
+pandas
+matplotlib
+seaborn
+numpy 
+scipy 
+matplotlib 
+sympy 
+ipykernel 
+matplotlib-label-lines 
+pandas 
+sklearn 
+seaborn 
+aiohttp 
+asyncio 
+async-timeout
+openpyxl 
+us 
+xlrd 
+census 
+keras 
+# tensorflow 
