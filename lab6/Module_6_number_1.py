@@ -8,6 +8,7 @@ import math
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
+from datetime import datetime
 import tensorflow as tf
 #%%
 tf.config.list_physical_devices('GPU') 
@@ -83,7 +84,11 @@ with strategy.scope():
 # model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3), loss=tf.keras.losses.BinaryCrossentropy())
 
 #%%Training the model with our training sets and allowing for single iteration
+startTime = datetime.now()
+print(startTime,"Starting Fit")
 model.fit(x_train, y_train, batch_size=1028, epochs=200)
+print(datetime.now() - startTime,"Fit Finished")
+
 
 #%%Creating array for the remaining 3 months of values
 test_data = scaled_data[training_data_len-90:, :]
