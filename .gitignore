@@ -1,0 +1,6 @@
+*.zip
+lab7/heartbeats/classifications/*
+/tf/lab8/Train Data
+/tf/lab8/Test Data
+lab8/Test Data
+lab8/Train Data

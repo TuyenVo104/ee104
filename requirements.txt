@@ -18,4 +18,5 @@ us
 xlrd 
 census 
 keras 
+scikeras
 # tensorflow 

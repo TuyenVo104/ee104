@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#set -x
+
+for wav in $(ls wav\ files); do
+  docker run -v $(pwd):/app -w /app juxsta/wav2csv wav\ files/$wav -o ./csv -v
+done
