@@ -1,12 +1,15 @@
 services:
   tf:
-    build: .
-    # image: juxsta/lab6
+    # build: .
+    image: juxsta/ee104
     working_dir: /tf
-    ports:
-      - 8888:8888
+    # ports:
+      # - 8888:8888
     volumes: 
       - .:/tf
+ #     - /tmp/ee104/python:/usr/loca/bin/python
+    environment:
+      - TF_GPU_ALLOCATOR=cuda_malloc_async
     deploy:
       resources:
         reservations:
