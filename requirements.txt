@@ -18,4 +18,6 @@ us
 xlrd 
 census 
 keras 
+tensorflow_io
+efficientnet
 # tensorflow 
