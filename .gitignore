@@ -4,3 +4,6 @@ lab7/heartbeats/classifications/*
 /tf/lab8/Test Data
 lab8/Test Data
 lab8/Train Data
+**.pyc
+**.h5
+**.bak

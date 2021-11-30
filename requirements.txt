@@ -20,4 +20,6 @@ census
 keras 
 tensorflow_io
 efficientnet
+modsimpy
+pint
 # tensorflow 
